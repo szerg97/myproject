@@ -101,21 +101,28 @@ class SongsController{
 
     private function getWinner(){
         $voters_array = $this->getVoters();
-        $rndNum = rand(0, count($voters_array)-1);
-        if ($rndNum % 2 == 0) {
-            $winner = $voters_array[$rndNum];
-            $email = $voters_array[$rndNum + 1];
-        }
-        else{
-            $winner = $voters_array[$rndNum-1];
-            $email = $voters_array[$rndNum];
-        }
 
-        $tpl_lottery = file_get_contents("../templates/songs/lottery.html");
-        $tpl_lottery = str_replace("{{ PERSON }}", $winner, $tpl_lottery);
-        $tpl_lottery = str_replace("{{ EMAIL }}", $email, $tpl_lottery);
+        if ($voters_array != null && count($voters_array) >= 2) {
+            $rndNum = rand(0, count($voters_array)-1);
 
-        $output = $tpl_lottery;
+            if ($rndNum % 2 == 0) {
+                $winner = $voters_array[$rndNum];
+                $email = $voters_array[$rndNum + 1];
+            }
+            else{
+                $winner = $voters_array[$rndNum-1];
+                $email = $voters_array[$rndNum];
+            }
+
+            $tpl_lottery = file_get_contents("../templates/songs/lottery.html");
+            $tpl_lottery = str_replace("{{ PERSON }}", $winner, $tpl_lottery);
+            $tpl_lottery = str_replace("{{ EMAIL }}", $email, $tpl_lottery);
+
+            $output = $tpl_lottery;
+        }
+        else {
+            $output = file_get_contents("../templates/songs/lottery_no_voters.html");
+        }
 
         return $output;
     }
