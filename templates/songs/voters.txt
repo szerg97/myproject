@@ -12,3 +12,9 @@ Peter Griffin
 peter@mail.com
 Marcus Rashford
 marcus@mail.com
+Mark Smith
+msmith@mail.com
+Daniel Craig
+dcraig@mail.com
+Cameron Diaz
+cdiaz@mail.net

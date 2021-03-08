@@ -56,7 +56,7 @@ class SongsController{
     }
 
     private function getVotes(): array{
-        $lines = file("../templates/songs/votes.txt");
+        $lines = file("../templates/songs/songvotes.txt");
         return $lines;
     }
 
@@ -79,22 +79,6 @@ class SongsController{
         }        
 
         return $songs_votes_array;
-    }
-
-    /**
-     * @param Request $request
-     * @Route(path="vote", name="getVoteAction")
-     */
-    public function getVote(Request $request){
-        $name = $request->request->get("name");
-        $email = $request->request->get("email");
-        $song = $request->request->get("song");
-
-        file_put_contents("../templates/songs/votes.txt", "$name\n", FILE_APPEND);
-        file_put_contents("../templates/songs/votes.txt", "$email\n", FILE_APPEND);
-        file_put_contents("../templates/songs/votes.txt", "$song\n", FILE_APPEND);
-        
-        return new RedirectResponse('list');
     }
 
     private function getVoters(): array{
@@ -135,11 +119,33 @@ class SongsController{
 
         return $output;
     }
+    
 
     /**
-     * @Route(path="lottery", name="getLotteryAction")
+     * @param Request $request
+     * @Route(path="vote", name="getVoteAction")
+     * @return Response
      */
-    public function getLottery(): Response{
+    public function getVote(Request $request){
+        $name = $request->request->get("name");
+        $email = $request->request->get("email");
+        $song = $request->request->get("song");
+
+        if ($name != null && $email != null && $song != null) {
+            file_put_contents("../templates/songs/songvotes.txt", "$name\n", FILE_APPEND);
+            file_put_contents("../templates/songs/songvotes.txt", "$email\n", FILE_APPEND);
+            file_put_contents("../templates/songs/songvotes.txt", "$song\n", FILE_APPEND);
+        }
+
+        return new RedirectResponse('list');
+    }
+
+    /**
+     * @param Request $request
+     * @Route(path="lottery", name="getLotteryAction")
+     * @return Response
+     */
+    public function getLottery(Request $request): Response{
 
         $str = $this->getWinner();
 
@@ -162,7 +168,7 @@ class SongsController{
      * @Route(path="list", name="getListAction")
      * @return Response
      */
-    public function getList() : Response{
+    public function getList(Request $request) : Response{
         $str = $this->getTable();
 
         return new Response($str);
