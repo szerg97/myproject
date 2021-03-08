@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Songs Form</title>
+</head>
+<body>
+    <form action="/songs/vote" method="post">
+        <table>
+            <tr>
+                <td>Name:</td>
+                <td><input type="text" name="name"></td>
+            </tr>
+            <tr>
+                <td>Email:</td>
+                <td><input type="text" name="email"></td>
+            </tr>
+            <tr>
+                <td>Song:</td>
+                <td><select name="song">
+                        {{ OPTIONS }}
+                    </select></td>
+            </tr>
+            <tr>
+                <td><input type="submit" value="SUBMIT"></td>
+            </tr>
+        </table>
+    </form>
+    <button onclick="location.href='/songs/list'" type="button">
+        BACK</button>
+</body>
+</html>
