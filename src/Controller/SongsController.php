@@ -133,7 +133,7 @@ class SongsController{
      * @Route(path="vote", name="getVoteAction")
      * @return Response
      */
-    public function getVote(Request $request){
+    public function getVote(Request $request): Response{
         $name = $request->request->get("name");
         $email = $request->request->get("email");
         $song = $request->request->get("song");
