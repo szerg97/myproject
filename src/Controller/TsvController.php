@@ -47,7 +47,7 @@ class TsvController{
             foreach ($value as $key2 => $value2) {
                 $rows .= str_replace("{{ CELL }}", $value2, $tpl_cell);
             
-                if ($i % 9 == 8) {
+                if ($i % 10 == 9) {
                     $rows .= $tpl_rowsep;
                 }
 
