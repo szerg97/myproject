@@ -43,22 +43,53 @@ class TsvController{
         file_put_contents(self::PATH, $cont);
     }
 
-    private function queryHighestSalary(){
-        $db = $this->readDatabase();
-        $salaries = array();
+    private function generateRandomEntities(): array{
+        $original_dataset = $this->readDatabase();
+        $original_records = array();
+        $new_dataset = array();
+        $new_records = array();
 
-        foreach ($db as $key => $rec) {
+        foreach ($original_dataset as $key => $rec) {
+            array_push($original_records, $rec);
+        }
+
+        for ($i=0; $i < 20; $i++) {
+             for ($j=0; $j < 9; $j++) { 
+                $new_records[$i][$j] = $original_dataset[rand(0, 9)][$j];
+             }
+        }
+
+        for ($i=0; $i < 20; $i++) { 
+            $new_dataset[$i] = $new_records[$i];
+        }
+
+        return $new_dataset;
+    }
+
+    private function getTableNew(){
+        $database = $this->generateRandomEntities();
+        $tpl_table = file_get_contents("../templates/tsv/table.html");
+        $tpl_rowsep = file_get_contents("../templates/tsv/rowsep.html");
+        $tpl_cell = file_get_contents("../templates/tsv/cell.html");
+
+        $rows = "";
+
+        foreach ($database as $key => $rec) {
             $i = 0;
             foreach ($rec as $key2 => $value) {
-                if ($i == 6) {
-                    array_push($salaries, $value);
+                $rows .= str_replace("{{ CELL }}", $value, $tpl_cell);
+            
+                if ($i % 10 == 8) {
+                    $rows .= $tpl_rowsep;
                 }
+
                 $i++;
             }
         }
 
-        $idx = array_search(max($salaries), $salaries);
-        return $idx;
+        $tpl_table = str_replace("{{ ROWS }}", $rows, $tpl_table);
+
+        return $tpl_table;
     }
 
     private function getTable(){
@@ -74,7 +105,7 @@ class TsvController{
             foreach ($rec as $key2 => $value) {
                 $rows .= str_replace("{{ CELL }}", $value, $tpl_cell);
             
-                if ($i % 10 == 9) {
+                if ($i % 10 == 8) {
                     $rows .= $tpl_rowsep;
                 }
 
@@ -131,6 +162,11 @@ class TsvController{
         $tp_list = str_replace("{{ Q5A }}", $total_count, $tp_list);
         $tp_list = str_replace("{{ Q5B }}", ($male_count/$total_count) * 100, $tp_list);
         $tp_list = str_replace("{{ Q5C }}", ($female_count/$total_count) * 100, $tp_list);
+
+        //DISPLAY NEW TABLE
+
+        $str2 = $this->getTableNew();
+        $tp_list = str_replace("{{ TABLE_NEW }}", $str2, $tp_list);
 
         return $tp_list;
     }
@@ -193,14 +229,15 @@ class TsvController{
         foreach ($db as $key => $rec) {
             $i = 0;
             foreach ($rec as $key2 => $value) {
-                if ($i == 3) {
-                    array_push($array, $value);
+                if ($i == 2) {
+                    array_push($array, 2021 - substr($value, 0, -6));
                 }
                 $i++;
             }
         }
 
         return $array;
+
     }
 
     private function getLevels(){
@@ -210,7 +247,7 @@ class TsvController{
         foreach ($db as $key => $rec) {
             $i = 0;
             foreach ($rec as $key2 => $value) {
-                if ($i == 4) {
+                if ($i == 3) {
                     array_push($array, $value);
                 }
                 $i++;
@@ -227,7 +264,7 @@ class TsvController{
         foreach ($db as $key => $rec) {
             $i = 0;
             foreach ($rec as $key2 => $value) {
-                if ($i == 5) {
+                if ($i == 4) {
                     array_push($array, $value);
                 }
                 $i++;
@@ -244,7 +281,7 @@ class TsvController{
         foreach ($db as $key => $rec) {
             $i = 0;
             foreach ($rec as $key2 => $value) {
-                if ($i == 6) {
+                if ($i == 5) {
                     array_push($array, $value);
                 }
                 $i++;
@@ -261,7 +298,7 @@ class TsvController{
         foreach ($db as $key => $rec) {
             $i = 0;
             foreach ($rec as $key2 => $value) {
-                if ($i == 7) {
+                if ($i == 6) {
                     array_push($array, $value);
                 }
                 $i++;
@@ -278,7 +315,7 @@ class TsvController{
         foreach ($db as $key => $rec) {
             $i = 0;
             foreach ($rec as $key2 => $value) {
-                if ($i == 8) {
+                if ($i == 7) {
                     array_push($array, $value);
                 }
                 $i++;
@@ -295,7 +332,7 @@ class TsvController{
         foreach ($db as $key => $rec) {
             $i = 0;
             foreach ($rec as $key2 => $value) {
-                if ($i == 9) {
+                if ($i == 8) {
                     array_push($array, $value);
                 }
                 $i++;
