@@ -100,8 +100,37 @@ class TsvController{
 
         //Q2
         $ages = $this->getAges();
+        $tp_list = str_replace("{{ Q2 }}", min($ages), $tp_list);
+
+        //Q3
+        $ages = $this->getAges();
         $average = array_sum($ages)/count(array_filter($ages));
-        $tp_list = str_replace("{{ Q2 }}", $average, $tp_list);
+        $tp_list = str_replace("{{ Q3 }}", $average, $tp_list);
+
+        //Q4
+        $positions = $this->getPositions();
+        $values = array_count_values($positions);
+        arsort($values);
+        $popular = array_slice(array_keys($values), 0, 5, true);
+        $tp_list = str_replace("{{ Q4 }}", $popular[0], $tp_list);
+
+        //Q5
+        $genders = $this->getGenders();
+        $total_count = count($genders);
+        $male_count = 0;
+        $female_count = 0;
+        foreach ($genders as $key => $value) {
+            if ($value == 'male') {
+                $male_count++;
+            }
+            else {
+                $female_count++;
+            }
+        }
+
+        $tp_list = str_replace("{{ Q5A }}", $total_count, $tp_list);
+        $tp_list = str_replace("{{ Q5B }}", ($male_count/$total_count) * 100, $tp_list);
+        $tp_list = str_replace("{{ Q5C }}", ($female_count/$total_count) * 100, $tp_list);
 
         return $tp_list;
     }
