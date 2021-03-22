@@ -6,3 +6,5 @@ How old is the youngest employee?
 What is the average age regarding employees?
 Which one is the most popular position?
 What's the ratio between male and female employees?
+Generate the union!
+Intersect:
