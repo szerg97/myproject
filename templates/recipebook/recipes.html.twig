@@ -1,0 +1,27 @@
+{% extends 'base.html.twig' %}
+{% block title %}
+    My Recipes
+{% endblock %}
+{% block body %}
+<div>
+    <h2>Recipes</h2>
+    <button onclick="location.href='/recipebook/form'" type="button">ADD NEW</button>
+    <button onclick="location.href='/recipebook/ingredients'" type="button">INGREDIENTS</button>
+    <table border="1" style="margin-bottom: 10px; margin-top: 10px;">
+        <tr>
+            <th>Name</th>
+            <th>Ingredients</th>
+        </tr>
+        {% for recipe in recipes %}
+            <tr>
+                {% for item in recipe %}
+                    <td>
+                        {{item}}
+                    </td>
+                {% endfor %}
+            </tr>
+        {% endfor %}
+    </table>
+</div>
+    
+{% endblock %}

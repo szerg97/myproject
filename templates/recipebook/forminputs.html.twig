@@ -1,0 +1,56 @@
+{% extends 'base.html.twig' %}
+{% block title %}My Form{% endblock %}
+{% block body %}
+    <h2>New recipe</h2>
+   <form action="{{ path('addRecipe') }}" method="post">
+       <table>
+           <tr>
+                <td>
+                    Name:
+                </td>
+                <td>
+                    <input type="hidden" name="name" value="{{details.name}}">
+                    {{details.name}}
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    Number of ingredients:
+                </td>
+                <td>
+                    <input type="hidden" name="count" value="{{details.number}}">
+                    {{details.number}}
+                </td>
+            </tr>
+            {% for i in range(1, details.number) %}
+                <tr>
+                    <td>
+                        Select ingredient:
+                    </td>
+                    <td>
+                        <select name="entry_ingredient{{i}}">
+                            {% for ing in ingredients %}
+                                <option value={{ing}} name={{ing}}>
+                                    {{ing}}
+                                </option>
+                            {% endfor %}
+                        </select>
+                    </td>
+                    <td>
+                        Quantity:
+                    </td>
+                    <td>
+                        <input type="number" name="amount{{i}}">
+                    </td>
+                </tr>
+            {% endfor %}
+       </table>
+       
+        <tr>
+            <input type="submit" value="SUBMIT">
+        </tr>
+   </form>
+{% endblock %}
+
+{% block javascripts %}
+{% endblock %}

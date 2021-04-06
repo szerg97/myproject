@@ -1,0 +1,11 @@
+apple
+carrot
+egg
+garlic
+lemon
+oil
+pepper
+potato
+salt
+sugar
+tomato
