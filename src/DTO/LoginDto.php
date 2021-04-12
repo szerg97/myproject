@@ -6,6 +6,7 @@ namespace App\DTO;
 
 use Symfony\Component\Form\Extension\Core\Type\FormType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormInterface;
 
 class LoginDto extends DtoBase
@@ -52,11 +53,12 @@ class LoginDto extends DtoBase
         parent::__construct($formFactory, $request);
     }
 
-    public function getForm(): FormInterface
+    public function getForm() : FormInterface
     {
         $builder = $this->formFactory->createBuilder(FormType::class, $this);
         $builder->add("userName", TextType::class);
         $builder->add("userPass", TextType::class);
         $builder->add("SEND", SubmitType::class);
+        return $builder->getForm();
     }
 }

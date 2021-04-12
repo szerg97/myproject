@@ -1,13 +1,13 @@
 <?php
-namespace App\Dto;
+namespace App\DTO;
 
-use Symfony\Component\Form\FormFactory;
+use Symfony\Component\Form\FormFactoryInterface;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\Request;
 
 abstract class DtoBase
 {
-    /** @var FormFactory */
+    /** @var FormFactoryInterface */
     protected $formFactory;
 
     /** @var Request  */
