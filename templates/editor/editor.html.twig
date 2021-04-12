@@ -13,6 +13,8 @@ MY EDITOR
         {% set userName = app.session.get('userName') %}
         <p style="color: green;">LOGGED IN AS {{ userName }}</p>
         <p><a href="{{ path('editor_logout') }}">LOG OUT</a></p>
+        <hr>
+        <p><a href="{{ path('forum_topic_list') }}">JUMP TO THE FORUM</a></p>
     {% endif %}
     {% if form is not null and form is not empty %}
         {% form_theme form 'form_table_layout.html.twig' %}

@@ -13,7 +13,7 @@ abstract class DtoBase
     /** @var Request  */
     protected $request;
 
-    public function __construct($formFactory, $request)
+    public function __construct(FormFactoryInterface $formFactory, $request)
     {
         $this->formFactory = $formFactory;
         $this->request = $request;
