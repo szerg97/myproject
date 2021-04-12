@@ -1,0 +1,14 @@
+{% extends "base.html.twig" %}
+
+{% block title %}
+    REGISTER
+{% endblock %}
+
+{% block body %}
+    {% if form is not null and form is not empty %}
+        {% form_theme form 'form_table_layout.html.twig' %}
+        {{ form_start(form) }}
+        {{ form_widget(form) }}
+        {{ form_end(form) }}
+    {% endif %}
+{% endblock %}

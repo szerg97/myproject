@@ -6,6 +6,7 @@ namespace App\Controller;
 
 use App\DTO\DtoBase;
 use App\DTO\LoginDto;
+use App\DTO\RegisterDto;
 use App\DTO\TextDto;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\FormFactoryInterface;
@@ -94,6 +95,25 @@ class EditorController extends AbstractController
         return $this->render("editor/editor.html.twig", $twig_params);
     }
 
+    /**
+     * @Route(path="/register", name="editor_register")
+     * @param Request $request
+     * @return Response
+     */
+    public function registerAction(Request $request): Response{
+        $dto = new RegisterDto($this->formFactory, $request);
+        $form = $dto->getForm();
+        $twig_params["form"] = $form->createView();
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()){
+            $str = $dto->getUserName()."\t".password_hash($dto->getUserPass(), PASSWORD_DEFAULT);
+            file_put_contents($this->passFile, $str."\n", FILE_APPEND);
+            return $this->redirectToRoute("editor");
+        }
+        return $this->render("editor/register.html.twig", $twig_params);
+    }
+
     private function processTextInput(TextDto $dto, FormInterface $form)
     {
         $text = $dto->getTextContent();
@@ -108,6 +128,23 @@ class EditorController extends AbstractController
     }
 
     private function processLoginInput(LoginDto $dto)
+    {
+        $uname = $dto->getUsername();
+        $upass = $dto->getUserPass();
+
+        $pwfile = file($this->passFile, FILE_IGNORE_NEW_LINES);
+        foreach ($pwfile as $line){
+            $arr = explode("\t", $line);
+            if($uname == $arr[0] && password_verify($upass, $arr[1])){
+                $this->get("session")->set("userName", $arr[0]);
+                $this->addFlash("notice", "LOGIN OK");
+                return;
+            }
+        }
+        $this->addFlash("notice", "LOGIN FAILED");
+    }
+
+    private function processRegisterInput(RegisterDto $dto)
     {
         $uname = $dto->getUsername();
         $upass = $dto->getUserPass();
