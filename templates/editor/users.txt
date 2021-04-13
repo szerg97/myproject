@@ -1,3 +1,2 @@
-
-geri	$2y$10$WdU6aF24Wi/QwSc/ESykdeV89kAUwxgf3IpMVtD0B4KKa.0TP/Iu.
-andris	$2y$10$af/hr0v6pPg9V8.CWbisXuw.7mkGJZRtifVi2Be4zeaUgJtqM59CS
+geri	$2y$10$xODCXWbePTf8pZoYFgFm1O1.5slcNaOtwseDj.WA8bMLibO4q/M7W
+peti	$2y$10$Uzcj3UwM8w33EXMJP/.MoeErRmINe1akI1uxYHk0UHcPezsB3g3OO

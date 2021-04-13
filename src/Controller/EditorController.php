@@ -8,6 +8,7 @@ use App\DTO\DtoBase;
 use App\DTO\LoginDto;
 use App\DTO\RegisterDto;
 use App\DTO\TextDto;
+use App\DTO\ChangePasswordDto;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\FormFactoryInterface;
 use Symfony\Component\Form\FormInterface;
@@ -114,6 +115,43 @@ class EditorController extends AbstractController
         return $this->render("editor/register.html.twig", $twig_params);
     }
 
+    /**
+     * @Route (name="editor_profile", path="/profile")
+     * @param Request $request
+     * @return Response
+     */
+    public function changePasswordAction(Request $request): Response{
+        $this->checkLogin();
+        $dto = new ChangePasswordDto($this->formFactory, $request);
+        $form = $dto->getForm();
+
+        $twig_params["form"] = $form->createView();
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()){
+            $currentGivenPw = $dto->getCurrentPassword();
+            $pwfile = file($this->passFile, FILE_IGNORE_NEW_LINES);
+            $str = "";
+            foreach ($pwfile as $line){
+                $arr = explode("\t", $line);
+                if ($arr[0] == $this->get("session")->get("userName") && password_verify($currentGivenPw, $arr[1])){
+                    $arr[1] = password_hash($dto->getNewPassword(), PASSWORD_DEFAULT);
+
+                }
+                $str .= $arr[0]."\t".$arr[1]."\n";
+            }
+            file_put_contents($this->passFile, $str);
+        }
+
+        return $this->render("editor/profile.html.twig", $twig_params);
+    }
+
+    private function checkLogin(){
+    if (!$this->get('session')->has('userName')){
+        throw $this->createAccessDeniedException();
+    }
+}
+
     private function processTextInput(TextDto $dto, FormInterface $form)
     {
         $text = $dto->getTextContent();
@@ -128,23 +166,6 @@ class EditorController extends AbstractController
     }
 
     private function processLoginInput(LoginDto $dto)
-    {
-        $uname = $dto->getUsername();
-        $upass = $dto->getUserPass();
-
-        $pwfile = file($this->passFile, FILE_IGNORE_NEW_LINES);
-        foreach ($pwfile as $line){
-            $arr = explode("\t", $line);
-            if($uname == $arr[0] && password_verify($upass, $arr[1])){
-                $this->get("session")->set("userName", $arr[0]);
-                $this->addFlash("notice", "LOGIN OK");
-                return;
-            }
-        }
-        $this->addFlash("notice", "LOGIN FAILED");
-    }
-
-    private function processRegisterInput(RegisterDto $dto)
     {
         $uname = $dto->getUsername();
         $upass = $dto->getUserPass();

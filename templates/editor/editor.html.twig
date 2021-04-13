@@ -12,6 +12,7 @@ MY EDITOR
     {% if app.session.get('userName') is not empty %}
         {% set userName = app.session.get('userName') %}
         <p style="color: green;">LOGGED IN AS {{ userName }}</p>
+        <p><a href="{{ path('editor_profile') }}">PROFILE</a></p>
         <p><a href="{{ path('editor_logout') }}">LOG OUT</a></p>
         <hr>
         <p><a href="{{ path('forum_topic_list') }}">JUMP TO THE FORUM</a></p>
