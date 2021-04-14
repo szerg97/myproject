@@ -110,6 +110,7 @@ class EditorController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()){
             $str = $dto->getUserName()."\t".password_hash($dto->getUserPass(), PASSWORD_DEFAULT);
             file_put_contents($this->passFile, $str."\n", FILE_APPEND);
+            $this->addFlash("notice", "REGISTRATION SUCCESSFUL");
             return $this->redirectToRoute("editor");
         }
         return $this->render("editor/register.html.twig", $twig_params);
@@ -136,21 +137,26 @@ class EditorController extends AbstractController
                 $arr = explode("\t", $line);
                 if ($arr[0] == $this->get("session")->get("userName") && password_verify($currentGivenPw, $arr[1])){
                     $arr[1] = password_hash($dto->getNewPassword(), PASSWORD_DEFAULT);
-
+                    $this->addFlash("notice", "PASSWORD SUCCESFULLY CHANGED");
+                }
+                else if ($arr[0] == $this->get("session")->get("userName")){
+                    $this->addFlash("notice", "PASSWORD CHANGE FAILED");
+                    return $this->render("editor/profile.html.twig", $twig_params);
                 }
                 $str .= $arr[0]."\t".$arr[1]."\n";
             }
             file_put_contents($this->passFile, $str);
+            return $this->redirectToRoute("editor");
         }
 
         return $this->render("editor/profile.html.twig", $twig_params);
     }
 
     private function checkLogin(){
-    if (!$this->get('session')->has('userName')){
-        throw $this->createAccessDeniedException();
+        if (!$this->get('session')->has('userName')){
+            throw $this->createAccessDeniedException();
+        }
     }
-}
 
     private function processTextInput(TextDto $dto, FormInterface $form)
     {
