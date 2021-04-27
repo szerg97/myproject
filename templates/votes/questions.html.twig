@@ -7,6 +7,16 @@
     {% for question in questions %}
         <p>
             <a href="{{ path('votes_listc', {'question': question.quId}) }}">{{ question.quText }}</a>
+            |
+            <a href="{{ path('votes_del_question', {'question': question.quId}) }}">DELETE</a>
         </p>
     {% endfor %}
+
+    {% if form is not null and form is not empty %}
+        {% form_theme form 'form_table_layout.html.twig' %}
+        {{ form_start(form) }}
+        {{ form_widget(form) }}
+        {{ form_end(form) }}
+    {% endif %}
+
 {% endblock %}
