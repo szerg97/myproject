@@ -33,6 +33,8 @@ class VotesController extends AbstractController
     /**
      * @param Request $request
      * @return Response
+     * @throws ORMException
+     * @throws OptimisticLockException
      * @Route(path="/votes", name="votes_listq")
      */
     public function listqAction(Request $request): Response{
@@ -57,7 +59,10 @@ class VotesController extends AbstractController
 
     /**
      * @param Request $request
+     * @param int $question
      * @return Response
+     * @throws ORMException
+     * @throws OptimisticLockException
      * @Route(path="/votes/question/{question}", name="votes_listc", requirements={"question": "\d+"})
      */
     public function listcAction(Request $request, int $question): Response{
@@ -131,6 +136,12 @@ class VotesController extends AbstractController
         return $this->redirectToRoute("votes_listc", ["question" => $choiceInstance->getChoQuestion()->getQuId()]);
     }
 
+    /**
+     * @param FormInterface $form
+     * @param Question $question
+     * @throws ORMException
+     * @throws OptimisticLockException
+     */
     private function addChoice(FormInterface $form, Question $question){
         /** @var EntityManager $em */
         $em = $this->getDoctrine()->getManager();
@@ -143,6 +154,11 @@ class VotesController extends AbstractController
         $em->flush();
     }
 
+    /**
+     * @param FormInterface $form
+     * @throws ORMException
+     * @throws OptimisticLockException
+     */
     private function addQuestion(FormInterface $form){
         /** @var EntityManager $em */
         $em = $this->getDoctrine()->getManager();
@@ -154,6 +170,7 @@ class VotesController extends AbstractController
 
     /**
      * @param Request $request
+     * @param int $choice
      * @return Response
      * @Route(path="/votes/vote/{choice}", name="votes_vote", requirements={"choice": "\d+"})
      */
