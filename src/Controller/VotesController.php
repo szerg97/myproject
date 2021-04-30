@@ -43,18 +43,18 @@ class VotesController extends AbstractController
         //SHOULD NOT SEND ENTITY TO VIEW/FORM
         $questions = $this->getDoctrine()->getRepository(Question::class)->findAll();
 
-        //FROM HERE
         $dto = new QuestionDto($this->formFactory, $request);
         $form = $dto->getForm();
         $form->handleRequest($request);
+        $twig_params = ["questions" => $questions, "form" => $form];
         if ($form->isSubmitted() && $form->isValid()){
-            $this->addQuestion($form);
+            $this->addQuestion($dto);
             $this->addFlash("notice", "QUESTION ADDED");
             return $this->redirectToRoute("votes_listq");
         }
-        //TO HERE
 
-        return $this->render("votes/questions.html.twig", ["questions" => $questions, "form" => $form->createView()]);
+        $twig_params["form"] = $form->createView();
+        return $this->render("votes/questions.html.twig", $twig_params);
     }
 
     /**
@@ -70,18 +70,18 @@ class VotesController extends AbstractController
         $questionInstance = $this->getDoctrine()->getRepository(Question::class)->find($question);
         if (!$questionInstance) throw $this->createNotFoundException();
 
-        //FROM HERE
         $dto = new ChoiceDto($this->formFactory, $request);
         $form = $dto->getForm();
         $form->handleRequest($request);
+        $twig_params = ["choices" => $questionInstance->getQuChoices(), "form" => $form];
         if ($form->isSubmitted() && $form->isValid()){
-            $this->addChoice($form, $questionInstance);
+            $this->addChoice($dto, $questionInstance);
             $this->addFlash("notice", "CHOICE ADDED");
             return $this->redirectToRoute("votes_listc", ["question" => $question]);
         }
-        //TO HERE
 
-        return $this->render("votes/choices.html.twig", ["choices" => $questionInstance->getQuChoices(), "form" => $form->createView()]);
+        $twig_params["form"] = $form->createView();
+        return $this->render("votes/choices.html.twig", $twig_params);
     }
 
     /**
@@ -137,33 +137,36 @@ class VotesController extends AbstractController
     }
 
     /**
-     * @param FormInterface $form
+     * @param ChoiceDto $dto
      * @param Question $question
      * @throws ORMException
      * @throws OptimisticLockException
      */
-    private function addChoice(FormInterface $form, Question $question){
+    private function addChoice(ChoiceDto $dto, Question $question){
         /** @var EntityManager $em */
         $em = $this->getDoctrine()->getManager();
+        $text = $dto->getTextContent();
         $ans = new Choice();
         $ans->setChoVisible(true);
         $ans->setChoNumvotes(0);
-        $ans->setChoText($form->get("textContent")->getData());
+        $ans->setChoText($text);
         $ans->setChoQuestion($question);
         $em->persist($ans);
         $em->flush();
     }
 
     /**
-     * @param FormInterface $form
+     * @param QuestionDto $dto
      * @throws ORMException
      * @throws OptimisticLockException
      */
-    private function addQuestion(FormInterface $form){
+    private function addQuestion(QuestionDto $dto){
+
+        $text = $dto->getTextContent();
         /** @var EntityManager $em */
         $em = $this->getDoctrine()->getManager();
         $qu = new Question();
-        $qu->setQuText($form->get("textContent")->getData());
+        $qu->setQuText($text);
         $em->persist($qu);
         $em->flush();
     }
