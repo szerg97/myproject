@@ -1,0 +1,21 @@
+{% extends 'cars/cars.html.twig' %}
+
+{# @var car \App\Entity\Car #}
+
+{% block carBody %}
+    {% set brandName = car.carBrand is null ? "N.A." : car.carBrand.brandName %}
+    {% set brandId = car.carBrand is null ? "N.A." : car.carBrand.brandId %}
+
+    <table border="1">
+        <tr><td>ID:</td><td>{{ car.carId }}</td></tr>
+        <tr><td>MODIFIED:</td><td>{{ car.carModified | date("Y.m.d. H:i:s") }}</td></tr>
+        <tr><td>INSERTED:</td><td>{{ car.carInserted | date("Y.m.d. H:i:s")}}</td></tr>
+        <tr><td>VISIBLE:</td><td>{{ car.carVisible ? "YES" : "NO" }}</td></tr>
+        <tr><td>MODEL:</td><td>{{ car.carModel }}</td></tr>
+        <tr><td>PRICE:</td><td>{{ car.carPrice }} EUR</td></tr>
+        <tr><td>BRAND:</td><td>
+                {{ brandName }}
+                <a href="{{ path('carlist', {'brandId' : brandId}) }}">FILTER FOR BRAND</a>
+            </td></tr>
+    </table>
+{% endblock %}

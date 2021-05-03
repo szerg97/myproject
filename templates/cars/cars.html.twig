@@ -1,0 +1,9 @@
+{# routes: carlist(brandId?), carshow(carId), cardel(carId), caredit(carId?) #}
+{% extends 'base.html.twig' %}
+
+{% block title %}car Manager Page{% endblock %}
+{% block body %}
+    <p><a href="{{ path('carlist') }}">BACK TO THE LIST PAGE</a></p>
+    {% block carBody%}
+    {% endblock %}
+{% endblock %}
