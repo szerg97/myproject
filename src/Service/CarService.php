@@ -85,7 +85,7 @@ class CarService extends CrudService implements ICarService
         $form = $this->formFactory->createBuilder(FormType::class, $oneCar);
         $form->add("car_model", TextType::class, ["required" => false]);
         $form->add("car_price", NumberType::class, ["required" => false]);
-        $form->add("car_price", ChoiceType::class, [
+        $form->add("car_visible", ChoiceType::class, [
             "choices" => ["YES" => true, "NO" => false]
         ]);
         $form->add("car_brand", EntityType::class, [

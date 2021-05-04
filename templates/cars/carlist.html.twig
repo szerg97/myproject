@@ -12,9 +12,9 @@
             <tr>
                 <td>{{ brandName }}</td>
                 <td>{{ car.carModel }}</td>
-                <td><a href="{{ path('carshow', {'carId: car.carId'}) }}">SHOW</a></td>
-                <td><a href="{{ path('caredit', {'carId: car.carId'}) }}">EDIT</a></td>
-                <td><a href="{{ path('cardel', {'carId: car.carId'}) }}">DEL</a></td>
+                <td><a href="{{ path('carshow', {'carId': car.carId}) }}">SHOW</a></td>
+                <td><a href="{{ path('caredit', {'carId': car.carId}) }}">EDIT</a></td>
+                <td><a href="{{ path('cardel', {'carId': car.carId}) }}">DEL</a></td>
             </tr>
         {% endfor %}
     </table>
