@@ -24,7 +24,7 @@ class CalcController{
      */
     public function calcResultAction(Request $request) : Response{
         // var_dump($request->request->all());
-        // return new Response("Hello");
+        // return new Response("Hello")
 
         $operand1 = $request->request->getInt("operand1");
         $operand2 = $request->request->getInt("operand2");
