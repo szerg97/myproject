@@ -97,7 +97,7 @@ class EditorController extends AbstractController
     }
 
     /**
-     * @Route(path="/register", name="editor_register")
+     * @Route(path="/editor/register", name="editor_register")
      * @param Request $request
      * @return Response
      */
