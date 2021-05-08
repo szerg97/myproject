@@ -8,7 +8,6 @@ use Symfony\Component\Security\Core\User\UserInterface;
 
 /**
  * Class User
- * @package App\Entity
  * @ORM\Entity
  * @ORM\Table(name="users")
  */
@@ -26,13 +25,13 @@ class User implements UserInterface
      * @var string
      * @ORM\Column (type="string", length=255, nullable=false)
      */
-    private $firstname = "";
+    private $firstName = "";
 
     /**
      * @var string
      * @ORM\Column (type="string", length=255, nullable=false)
      */
-    private $lastname = "";
+    private $lastName = "";
 
     /**
      * @var string
@@ -54,7 +53,7 @@ class User implements UserInterface
 
     public function __toString(): string
     {
-        return "{$this->firstname} {$this->lastname}";
+        return "{$this->firstName} {$this->lastName}";
     }
 
     /**
@@ -68,33 +67,33 @@ class User implements UserInterface
     /**
      * @return string
      */
-    public function getFirstname(): string
+    public function getFirstName(): string
     {
-        return $this->firstname;
+        return $this->firstName;
     }
 
     /**
-     * @param string $firstname
+     * @param string $firstName
      */
-    public function setFirstname(string $firstname): void
+    public function setFirstName(string $firstName): void
     {
-        $this->firstname = $firstname;
+        $this->firstName = $firstName;
     }
 
     /**
      * @return string
      */
-    public function getLastname(): string
+    public function getLastName(): string
     {
-        return $this->lastname;
+        return $this->lastName;
     }
 
     /**
-     * @param string $lastname
+     * @param string $lastName
      */
-    public function setLastname(string $lastname): void
+    public function setLastName(string $lastName): void
     {
-        $this->lastname = $lastname;
+        $this->lastName = $lastName;
     }
 
     /**

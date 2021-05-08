@@ -2,8 +2,6 @@
 
 namespace App\Service;
 
-
-
 use App\Entity\User;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
@@ -30,8 +28,8 @@ class SecurityService
     public function registerUser(string $email, string $clearPass, string $firstname, string $lastname): void{
         $user = new User();
         $user->setEmail($email);
-        $user->setFirstname($firstname);
-        $user->setLastname($lastname);
+        $user->setFirstName($firstname);
+        $user->setLastName($lastname);
         $user->setRoles(["ROLE_USER"]);
         $user->setPassword($this->encoder->encodePassword($user, $clearPass));
         $this->em->persist($user);

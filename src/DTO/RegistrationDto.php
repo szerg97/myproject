@@ -1,6 +1,5 @@
 <?php
 
-
 namespace App\DTO;
 
 //Should NEVER USE entities for forms / VM
@@ -20,16 +19,16 @@ use Symfony\Component\Validator\Constraints\NotBlank;
 class RegistrationDto extends DtoBase
 {
     /** @var string */
-    private $firstname = "";
+    private $firstName = "";
 
     /** @var string */
-    private $lastname = "";
+    private $lastName = "";
 
     /** @var string */
     private $email = "";
 
     /** @var string */
-    private $clearPass = "";
+    private $clearPassword = "";
 
     /** @var bool */
     private $gdprAgreed = false;
@@ -37,33 +36,33 @@ class RegistrationDto extends DtoBase
     /**
      * @return string
      */
-    public function getFirstname(): string
+    public function getFirstName(): string
     {
-        return $this->firstname;
+        return $this->firstName;
     }
 
     /**
-     * @param string $firstname
+     * @param string $firstName
      */
-    public function setFirstname(string $firstname): void
+    public function setFirstName(string $firstName): void
     {
-        $this->firstname = $firstname;
+        $this->firstName = $firstName;
     }
 
     /**
      * @return string
      */
-    public function getLastname(): string
+    public function getLastName(): string
     {
-        return $this->lastname;
+        return $this->lastName;
     }
 
     /**
-     * @param string $lastname
+     * @param string $lastName
      */
-    public function setLastname(string $lastname): void
+    public function setLastName(string $lastName): void
     {
-        $this->lastname = $lastname;
+        $this->lastName = $lastName;
     }
 
     /**
@@ -85,17 +84,17 @@ class RegistrationDto extends DtoBase
     /**
      * @return string
      */
-    public function getClearPass(): string
+    public function getClearPassword(): string
     {
-        return $this->clearPass;
+        return $this->clearPassword;
     }
 
     /**
-     * @param string $clearPass
+     * @param string $clearPassword
      */
-    public function setClearPass(string $clearPass): void
+    public function setClearPassword(string $clearPassword): void
     {
-        $this->clearPass = $clearPass;
+        $this->clearPassword = $clearPassword;
     }
 
     /**
@@ -122,15 +121,15 @@ class RegistrationDto extends DtoBase
     public function getForm(): FormInterface
     {
         $builder = $this->formFactory->createBuilder(FormType::class, $this);
-        $builder->add('firstname', TextType::class, ['required' => true]);
-        $builder->add('lastname', TextType::class, ['required' => true]);
-        $builder->add('email', EmailType::class, ['required' => true]);
-        $builder->add('clearPass', RepeatedType::class, [
+        $builder->add('firstName', TextType::class, ["required" => true]);
+        $builder->add('lastName', TextType::class, ["required" => true]);
+        $builder->add('email', EmailType::class, ["required" => true]);
+        $builder->add('clearPassword', RepeatedType::class, [
             'type' => PasswordType::class,
             'invalid_message' => 'The passwords must match!',
             'required' => true,
-            'first_options' => ['label' => 'Password'],
-            'second_options' => ['label' => 'Confirm password'],
+            'first_options' => ["label" => "Password"],
+            'second_options' => ["label" => "Confirm password"],
             'constraints' => [
                 new NotBlank(['message' => 'Password cannot be empty']),
                 new Length([
@@ -140,10 +139,10 @@ class RegistrationDto extends DtoBase
                 ])
             ]
         ]);
-        $builder->add('gdprAgreed', CheckboxType::class, ['constraints' => [
-            new IsTrue(['message' => 'You must agree to the GDPR rules!'])
+        $builder->add('gdprAgreed', CheckboxType::class, ["constraints" => [
+            new IsTrue(["message" => "You must agree to the GDPR rules!"])
         ]]);
-        $builder->add('regsterUser', SubmitType::class);
+        $builder->add('Register user', SubmitType::class);
         return $builder->getForm();
     }
 }

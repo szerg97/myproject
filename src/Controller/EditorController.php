@@ -6,7 +6,7 @@ namespace App\Controller;
 
 use App\DTO\DtoBase;
 use App\DTO\LoginDto;
-use App\DTO\RegisterDto;
+use App\DTO\SomeDto;
 use App\DTO\TextDto;
 use App\DTO\ChangePasswordDto;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -102,7 +102,7 @@ class EditorController extends AbstractController
      * @return Response
      */
     public function registerAction(Request $request): Response{
-        $dto = new RegisterDto($this->formFactory, $request);
+        $dto = new SomeDto($this->formFactory, $request);
         $form = $dto->getForm();
         $twig_params["form"] = $form->createView();
         $form->handleRequest($request);

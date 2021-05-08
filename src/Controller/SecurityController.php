@@ -36,8 +36,8 @@ class SecurityController extends AbstractController
         $form->handleRequest($request);
 
         if($form->isSubmitted() && $form->isValid()){
-            $this->security->registerUser($dto->getEmail(), $dto->getClearPass(), $dto->getFirstname(), $dto->getLastname());
-            $this->addFlash("notice", "{$dto->getEmail()} REGISTERED SUCCESFULLY");
+            $this->security->registerUser($dto->getEmail(), $dto->getClearPassword(), $dto->getFirstName(), $dto->getLastName());
+            $this->addFlash('notice', "{$dto->getEmail()} REGISTERED SUCCESFULLY");
             return $this->redirectToRoute("app_register");
         }
         return $this->render("security/register.html.twig", ["form" => $form->createView()]);
